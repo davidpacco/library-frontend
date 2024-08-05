@@ -1,13 +1,13 @@
 import { useState } from "react"
 
-export function NewBook(show) {
+export function NewBook({ show }) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
-  if (show) {
+  if (!show) {
     return null
   }
 
@@ -32,21 +32,21 @@ export function NewBook(show) {
     <div>
       <form onSubmit={submit}>
         <div>
-          title
+          Title
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
-          author
+          Author
           <input
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
-          published
+          Published
           <input
             type="number"
             value={published}
@@ -59,11 +59,11 @@ export function NewBook(show) {
             onChange={({ target }) => setGenre(target.value)}
           />
           <button onClick={addGenre} type="button">
-            add genre
+            Add genre
           </button>
         </div>
-        <div>genres: {genres.join(' ')}</div>
-        <button type="submit">create book</button>
+        <div>Genres: {genres.join(' ')}</div>
+        <button type="submit">Create book</button>
       </form>
     </div>
   )

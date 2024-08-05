@@ -1,5 +1,5 @@
 export function Books({ show }) {
-  if (show) {
+  if (!show) {
     return null
   }
 
@@ -7,14 +7,14 @@ export function Books({ show }) {
 
   return (
     <div>
-      <h2>books</h2>
+      <h2>Books</h2>
 
       <table>
         <tbody>
           <tr>
             <th></th>
-            <th>author</th>
-            <th>published</th>
+            <th>Author</th>
+            <th>Published</th>
           </tr>
           {books.map((a) => (
             <tr key={a.title}>
