@@ -1,12 +1,8 @@
 import { useQuery } from "@apollo/client"
 import { ALL_BOOKS } from "../queries"
 
-export function Books({ show }) {
+export function Books() {
   const result = useQuery(ALL_BOOKS)
-
-  if (!show) {
-    return null
-  }
 
   if (result.loading) {
     return <p>Loading...</p>

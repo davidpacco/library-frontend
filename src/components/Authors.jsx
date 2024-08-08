@@ -2,7 +2,7 @@ import { useQuery, useMutation } from "@apollo/client"
 import { ALL_AUTHORS, EDIT_AUTHOR } from "../queries"
 import { useState } from "react"
 
-export function Authors({ show }) {
+export function Authors() {
   const result = useQuery(ALL_AUTHORS)
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
@@ -17,10 +17,6 @@ export function Authors({ show }) {
 
     setName('')
     setBorn('')
-  }
-
-  if (!show) {
-    return null
   }
 
   if (result.loading) {
