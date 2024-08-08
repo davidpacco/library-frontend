@@ -52,13 +52,13 @@ export function Authors({ show }) {
       <h2>Set birthyear</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
-            Name
-            <input
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </label>
+          <select onChange={(e) => setName(e.target.value)}>
+            {authors.map(a =>
+              <option key={a.id} value={a.name}>
+                {a.name}
+              </option>
+            )}
+          </select>
         </div>
         <div>
           <label>
@@ -70,6 +70,7 @@ export function Authors({ show }) {
             />
           </label>
         </div>
+
         <button>Update</button>
       </form>
     </div>
