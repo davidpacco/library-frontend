@@ -15,7 +15,7 @@ export function NewBook() {
   const submit = async (event) => {
     event.preventDefault()
 
-    addBook({ variables: { title, author, published: Number(published), genres } })
+    await addBook({ variables: { title, author, published: Number(published), genres } })
 
     setTitle('')
     setPublished('')

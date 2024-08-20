@@ -10,12 +10,11 @@ export function Authors() {
     refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    editAuthor({ variables: { name, born: Number(born) } })
+    await editAuthor({ variables: { name, born: Number(born) } })
 
-    setName('')
     setBorn('')
   }
 
