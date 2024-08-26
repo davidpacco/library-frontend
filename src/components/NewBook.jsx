@@ -11,24 +11,31 @@ export function NewBook() {
   const [addBook] = useMutation(ADD_BOOK, {
     update: (cache, response) => {
       const newBook = response.data.addBook
+      const newAuthor = response.data.addBook.author
 
-      cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
-        return {
-          allBooks: allBooks.concat(newBook),
+      cache.updateQuery({ query: ALL_BOOKS }, (data) => {
+        if (data?.allBooks) {
+          return {
+            allBooks: data.allBooks.concat(newBook),
+          }
         }
       })
 
-      cache.updateQuery({ query: ALL_AUTHORS }, ({ allAuthors }) => {
-        return {
-          allAuthors: allAuthors.concat(response.data.addBook.author)
+      cache.updateQuery({ query: ALL_AUTHORS }, (data) => {
+        if (data?.authors) {
+          const authorExists = data.allAuthors.find(a => a.name === newAuthor.name)
+          if (!authorExists) {
+            return {
+              allAuthors: data.allAuthors.concat(newAuthor)
+            }
+          }
         }
       })
 
+      const me = cache.readQuery({ query: ME })?.me
 
-      const { favoriteGenre } = cache.readQuery({ query: ME }).me
-
-      if (newBook.genres.includes(favoriteGenre)) {
-        cache.updateQuery({ query: ALL_BOOKS, variables: { genre: favoriteGenre } }, ({ allBooks }) => {
+      if (me && newBook.genres.includes(me.favoriteGenre)) {
+        cache.updateQuery({ query: ALL_BOOKS, variables: { genre: me.favoriteGenre } }, ({ allBooks }) => {
           return {
             allBooks: allBooks.concat(newBook),
           }

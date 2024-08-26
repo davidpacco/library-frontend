@@ -6,6 +6,7 @@ export function Recommended() {
   const genre = meResult.data?.me.favoriteGenre
   const booksResult = useQuery(ALL_BOOKS, {
     variables: { genre },
+    skip: !genre
   })
 
   if (meResult.loading || booksResult.loading) {

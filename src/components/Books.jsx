@@ -10,7 +10,6 @@ export function Books() {
 
   if (result.loading) {
     return <p>Loading...</p>
-
   }
 
   const books = result.data.allBooks
