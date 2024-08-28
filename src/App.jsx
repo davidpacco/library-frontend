@@ -9,7 +9,8 @@ import { useEffect } from "react";
 import { Recommended } from "./components/Recommended";
 import { Notification } from "./components/Notification";
 import { useSubscription } from "@apollo/client";
-import { BOOK_ADDED } from "./queries";
+import { ALL_BOOKS, BOOK_ADDED } from "./queries";
+import { updateCache } from "./utils/helpers";
 
 function App() {
   const [token, setToken] = useState(null)
@@ -17,9 +18,10 @@ function App() {
   const navigate = useNavigate()
 
   useSubscription(BOOK_ADDED, {
-    onData: ({ data }) => {
-      const { title, author } = data.data.bookAdded
-      notify(`${title} by ${author.name} added`)
+    onData: ({ data, client }) => {
+      const bookAdded = data.data.bookAdded
+      notify(`${bookAdded.title} by ${bookAdded.author.name} added`)
+      updateCache(client.cache, { query: ALL_BOOKS }, bookAdded)
     }
   })
 
