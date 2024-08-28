@@ -7,10 +7,21 @@ import { Routes, Route, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Recommended } from "./components/Recommended";
+import { Notification } from "./components/Notification";
+import { useSubscription } from "@apollo/client";
+import { BOOK_ADDED } from "./queries";
 
 function App() {
   const [token, setToken] = useState(null)
+  const [message, setMessage] = useState(null)
   const navigate = useNavigate()
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const { title, author } = data.data.bookAdded
+      notify(`${title} by ${author.name} added`)
+    }
+  })
 
   useEffect(() => {
     setToken(localStorage.getItem('library-user-token'))
@@ -20,6 +31,11 @@ function App() {
     setToken(null)
     localStorage.removeItem('library-user-token')
     navigate('/login')
+  }
+
+  const notify = message => {
+    setMessage(message)
+    setTimeout(() => setMessage(null), 5000)
   }
 
   return (
@@ -52,7 +68,7 @@ function App() {
         </ul>
       </nav>
 
-      <br />
+      {message && <Notification message={message} />}
 
       <Routes>
         <Route path="/" element={<Authors />} />
